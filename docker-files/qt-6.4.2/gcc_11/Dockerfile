@@ -16,7 +16,8 @@ RUN apt update && apt install -y \
     && mkdir -p qt6-build \
     && cd qt6-build \
     && ../qt5/configure -prefix /usr/local/Qt-6.4.2 -opensource -confirm-license -nomake examples -nomake tests \
-    && cmake --build . --target qtbase qtscxml install -- -k 5\
+    && cmake --build . --target qtbase qtscxml --parallel \
+    && ninja -k 100 install \
     && cd .. \
     && rm -rf qt5 qt6-build \
     && apt-get purge -y --auto-remove build-essential git ninja-build
