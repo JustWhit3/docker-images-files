@@ -20,8 +20,8 @@ jobs:
       - name: Build Docker Images with buildx
         run: |
           cd docker-files/qt-6.4.2/gcc_11
-          docker buildx build -t gcc-11 .
-          docker tag gcc-11 justwhit3/qt-6.4.2:gcc-11
+          # docker buildx build -t gcc-11 .
+          # docker tag gcc-11 justwhit3/qt-6.4.2:gcc-11
           cd ../../..
 
       - name: Login to Docker Hub
