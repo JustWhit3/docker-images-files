@@ -12,23 +12,19 @@ RUN apt update && apt install -y \
     && cd qt5 \
     && git checkout v6.4.2 \
     && perl init-repository \
+    && cd .. \
     && mkdir -p qt6-build \
     && cd qt6-build \
-    && ../qt5/configure -opensource -confirm-license -nomake examples -nomake tests \
+    && ../qt5/configure -prefix /usr/local/Qt-6.4.2 -opensource -confirm-license -nomake examples -nomake tests \
     && cmake --build . --parallel \
     && cmake --install . \
-    && cd / \
-    && rm -rf qt5 qt6-build
+    && cd .. \
+    && rm -rf qt5 qt6-build \
+    && apt-get purge -y --auto-remove build-essential git ninja-build
 
 # Export paths
-ENV QTDIR="/usr/local/Qt-6.4.2" \
-    PATH="/usr/local/Qt-6.4.2/bin:$PATH" \
-    CMAKE_PREFIX_PATH="/usr/local/Qt-6.4.2" \
-    CMAKE_INCLUDE_PATH="${CMAKE_INCLUDE_PATH}:/usr/local/Qt-6.4.2/qtbase/include:/usr/local/Qt-6.4.2/qtbase/include/QtWidgets:/usr/local/Qt-6.4.2/qtbase/include/QtStateMachine" \
-    LD_LIBRARY_PATH="/usr/local/Qt-6.4.2/lib:$LD_LIBRARY_PATH"
-
-# Remove temporary files
-RUN apt-get purge -y --auto-remove build-essential git ninja-build
+ENV CMAKE_PREFIX_PATH="/usr/local/Qt-6.4.2"
+ENV LD_LIBRARY_PATH="/usr/local/Qt-6.4.2/lib:$LD_LIBRARY_PATH"
 
 # Run program
-CMD ["ls", "/usr/local/Qt-6.4.2"]
+CMD ["ls", "/usr/local/Qt-6.4.2/include/QtCore"]
