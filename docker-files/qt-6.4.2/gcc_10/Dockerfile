@@ -1,5 +1,5 @@
 # Environment settings
-FROM gcc:13
+FROM gcc:10
 WORKDIR /image
 COPY . .
 
